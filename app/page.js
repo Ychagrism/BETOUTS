@@ -153,12 +153,21 @@ export default function Home() {
           avatarUrl = await uploadAvatar(data.user.id);
         }
 
-        // Update profile with avatar URL
+        // Create or update profile
+        const profileData = {
+          id: data.user.id,
+          full_name: formData.fullName,
+        };
         if (avatarUrl) {
-          await supabase
-            .from('profiles')
-            .update({ avatar_url: avatarUrl })
-            .eq('id', data.user.id);
+          profileData.avatar_url = avatarUrl;
+        }
+
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert(profileData);
+
+        if (profileError) {
+          console.error("Error creating profile:", profileError);
         }
 
         router.push('/leaderboard');
