@@ -20,7 +20,7 @@ export default function Header() {
           .from('profiles')
           .select('full_name, avatar_url')
           .eq('id', session.user.id)
-          .single();
+          .maybeSingle();
         if (data) setProfile(data);
       }
     };
