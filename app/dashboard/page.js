@@ -29,7 +29,7 @@ export default function Dashboard() {
         .from('profiles')
         .select('*')
         .eq('id', session.user.id)
-        .single();
+        .maybeSingle();
       
       if (userProfile) setProfile(userProfile);
 

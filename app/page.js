@@ -153,18 +153,14 @@ export default function Home() {
           avatarUrl = await uploadAvatar(data.user.id);
         }
 
-        // Create or update profile
-        const profileData = {
-          id: data.user.id,
-          full_name: formData.fullName,
-        };
-        if (avatarUrl) {
-          profileData.avatar_url = avatarUrl;
-        }
-
+        // Insert profile
         const { error: profileError } = await supabase
           .from('profiles')
-          .upsert(profileData);
+          .insert({
+            id: data.user.id,
+            full_name: formData.fullName,
+            avatar_url: avatarUrl
+          });
 
         if (profileError) {
           console.error("Error creating profile:", profileError);

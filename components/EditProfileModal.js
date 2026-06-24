@@ -102,7 +102,7 @@ export default function EditProfileModal({ isOpen, onClose, profile, onSave }) {
         })
         .eq('id', session.user.id)
         .select()
-        .single();
+        .maybeSingle();
 
       if (updateError) throw updateError;
 
